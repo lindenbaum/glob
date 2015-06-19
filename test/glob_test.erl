@@ -59,6 +59,10 @@ simple_test() ->
     ?assert(glob:matches([$*], [$\\, $*])),
     ?assert(glob:matches([$?], [$\\, $?])).
 
+compile_errors_test() ->
+    ?assertMatch({error, _}, glob:compile("abc\\")),
+    ?assertMatch({error, _}, glob:compile("abc[")).
+
 wikipedia_test() ->
     ?assert(glob:matches("Cat", "?at")),
     ?assert(glob:matches("cat", "?at")),
@@ -89,6 +93,26 @@ wikipedia_test() ->
     ?assert(not glob:matches("Letter3", "Letter[!3-5]")),
     ?assert(not glob:matches("Letter4", "Letter[!3-5]")),
     ?assert(not glob:matches("Letter5", "Letter[!3-5]")).
+
+escape_test() ->
+    ?assert(glob:matches("!^$.|()+{}\\[-]*?", "!^$.|()+{}\\\\\\[\\-\\]\\*\\?")),
+    ?assert(glob:matches("!", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("^", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("$", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches(".", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("|", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("(", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches(")", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("+", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("^", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("{", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("}", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("\\", "[\\!^$.|()+{}\\\\\\[\-\\]\\*\\?]")),
+    ?assert(glob:matches("[", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("-", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("]", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("*", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")),
+    ?assert(glob:matches("?", "[\\!^$.|()+{}\\\\\\[\\-\\]\\*\\?]")).
 
 empty_expr_test() ->
     qc(?FORALL(

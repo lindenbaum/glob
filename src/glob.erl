@@ -141,52 +141,48 @@ convert([], [], Opts) ->
     re:compile([$^, $$], Opts ++ ?COMPILE_OPTS);
 convert([], Acc, Opts) ->
     re:compile(lists:reverse([$$ | Acc]), Opts ++ ?COMPILE_OPTS);
-convert([$^ | Rest], Acc, Opts) ->
-    convert(Rest, [$^ | [$\\ | Acc]], Opts);
-convert([$$ | Rest], Acc, Opts) ->
-    convert(Rest, [$$ | [$\\ | Acc]], Opts);
-convert([$. | Rest], Acc, Opts) ->
-    convert(Rest, [$. | [$\\ | Acc]], Opts);
-convert([$| | Rest], Acc, Opts) ->
-    convert(Rest, [$| | [$\\ | Acc]], Opts);
-convert([$( | Rest], Acc, Opts) ->
-    convert(Rest, [$( | [$\\ | Acc]], Opts);
-convert([$) | Rest], Acc, Opts) ->
-    convert(Rest, [$) | [$\\ | Acc]], Opts);
-convert([$+ | Rest], Acc, Opts) ->
-    convert(Rest, [$+ | [$\\ | Acc]], Opts);
-convert([${ | Rest], Acc, Opts) ->
-    convert(Rest, [${ | [$\\ | Acc]], Opts);
-convert([$} | Rest], Acc, Opts) ->
-    convert(Rest, [$} | [$\\ | Acc]], Opts);
 convert([$* | Rest], Acc, Opts) ->
     convert(Rest, [$* | [$. | Acc]], Opts);
 convert([$? | Rest], Acc, Opts) ->
     convert(Rest, [$. | Acc], Opts);
-convert([$\\ | Rest], Acc, Opts) ->
-    convert_escaped(Rest, [$\\ | Acc], Opts);
+convert([$\\], _Acc, _Opts) ->
+    {error, escape_sequence_at_end_of_pattern};
+convert([$\\ | [C | Rest]], Acc, Opts) ->
+    convert(Rest, [C | [$\\ | Acc]], Opts);
 convert([$[ | [$! | Rest]], Acc, Opts) ->
     convert_character_class(Rest, [$^ | [$[ | Acc]], Opts);
 convert([$[ | Rest], Acc, Opts) ->
     convert_character_class(Rest, [$[ | Acc], Opts);
 convert([C | Rest], Acc, Opts) ->
-    convert(Rest, [C | Acc], Opts).
-
-%%------------------------------------------------------------------------------
-%% @private
-%%------------------------------------------------------------------------------
-convert_escaped([], _Acc, _Opts)       -> {error, misplaced_escape_sequence};
-convert_escaped([C | Rest], Acc, Opts) -> convert(Rest, [C | Acc], Opts).
+    convert(Rest, escape(C, Acc), Opts).
 
 %%------------------------------------------------------------------------------
 %% @private
 %%------------------------------------------------------------------------------
 convert_character_class([], _Acc, _Opts) ->
     {error, non_terminated_character_class};
+convert_character_class([$\\], _Acc, _Opts) ->
+    {error, escape_sequence_at_end_of_pattern};
+convert_character_class([$\\ | [C | Rest]], Acc, Opts) ->
+    convert_character_class(Rest, [C | [$\\ | Acc]], Opts);
 convert_character_class([$] | Rest], Acc, Opts) ->
     convert(Rest, [$] | Acc], Opts);
 convert_character_class([C | Rest], Acc, Opts) ->
     convert_character_class(Rest, [C | Acc], Opts).
+
+%%------------------------------------------------------------------------------
+%% @private
+%%------------------------------------------------------------------------------
+escape($^, Acc) -> [$^ | [$\\ | Acc]];
+escape($$, Acc) -> [$$ | [$\\ | Acc]];
+escape($., Acc) -> [$. | [$\\ | Acc]];
+escape($|, Acc) -> [$| | [$\\ | Acc]];
+escape($(, Acc) -> [$( | [$\\ | Acc]];
+escape($), Acc) -> [$) | [$\\ | Acc]];
+escape($+, Acc) -> [$+ | [$\\ | Acc]];
+escape(${, Acc) -> [${ | [$\\ | Acc]];
+escape($}, Acc) -> [$} | [$\\ | Acc]];
+escape(C, Acc)  -> [C | Acc].
 
 %%------------------------------------------------------------------------------
 %% @private
