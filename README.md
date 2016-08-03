@@ -3,7 +3,8 @@
 glob
 ====
 
-A library application to work with `glob` patterns.
+A library application to work with `glob` patterns. Now also available on
+[hex.pm](https://hex.pm/packages/glob).
 
 Syntax
 ------

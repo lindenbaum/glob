@@ -3,7 +3,7 @@
 %%%               |  o __   _|  _  __  |_   _       _ _   (TM)
 %%%               |_ | | | (_| (/_ | | |_) (_| |_| | | |
 %%%
-%%% @copyright (C) 2015-2016, Lindenbaum GmbH
+%%% @copyright (C) 2016, Lindenbaum GmbH
 %%%
 %%% Permission to use, copy, modify, and/or distribute this software for any
 %%% purpose with or without fee is hereby granted, provided that the above
@@ -18,15 +18,4 @@
 %%% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 %%%
 %%%=============================================================================
-{application,
- glob,
- [
-  {description, "A library to match glob expressions"},
-  {vsn, "0.0.9"},
-  {registered, []},
-  {applications, [kernel, stdlib]},
-  {env, []},
-  {maintainers, ["Tobias Schlager", "Sven Heyll", "Timo Koepke"]},
-  {licenses, ["MIT"]},
-  {links, [{"Github", "https://github.com/lindenbaum/glob"}]}
- ]}.
+{"0.0.9", [], []}.
