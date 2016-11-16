@@ -1,5 +1,7 @@
 language: erlang
-
+script:
+  - rebar get-deps compile -DDEBUG
+  - rebar skip_deps=true eunit -DDEBUG
 otp_release:
   - 17.0
   - 17.1
