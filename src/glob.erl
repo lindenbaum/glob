@@ -137,10 +137,8 @@ match(Subject, Expr) ->
 %%------------------------------------------------------------------------------
 %% @private
 %%------------------------------------------------------------------------------
-convert([], [], Opts) ->
-    re:compile([$^, $$], Opts ++ ?COMPILE_OPTS);
 convert([], Acc, Opts) ->
-    re:compile(lists:reverse([$$ | Acc]), Opts ++ ?COMPILE_OPTS);
+    re:compile([$^ | lists:reverse([$$ | Acc])], Opts ++ ?COMPILE_OPTS);
 convert([$* | Rest], Acc, Opts) ->
     convert(Rest, [$* | [$. | Acc]], Opts);
 convert([$? | Rest], Acc, Opts) ->

@@ -32,6 +32,7 @@ simple_test() ->
     ?assert(glob:matches("", "*")),
     ?assert(not glob:matches("", "?")),
     ?assert(not glob:matches("", "abc")),
+    ?assert(not glob:matches("lala1", "[0-9]*")),
     ?assert(glob:matches([$\\], [$\\, $\\])),
     ?assert(glob:matches([$*], [$\\, $*])),
     ?assert(glob:matches([$?], [$\\, $?])).
