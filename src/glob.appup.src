@@ -3,7 +3,7 @@
 %%%               |  o __   _|  _  __  |_   _       _ _   (TM)
 %%%               |_ | | | (_| (/_ | | |_) (_| |_| | | |
 %%%
-%%% @copyright (C) 2016, Lindenbaum GmbH
+%%% @copyright (C) 2016-2019, Lindenbaum GmbH
 %%%
 %%% Permission to use, copy, modify, and/or distribute this software for any
 %%% purpose with or without fee is hereby granted, provided that the above
@@ -18,4 +18,10 @@
 %%% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 %%%
 %%%=============================================================================
-{"0.0.9", [], []}.
+{"1.0.0",
+ [
+  {"0.0.9", [{restart_application, glob}]}
+ ],
+ [
+  {"0.0.9", [{restart_application, glob}]}
+ ]}.
