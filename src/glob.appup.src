@@ -18,10 +18,12 @@
 %%% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 %%%
 %%%=============================================================================
-{"1.0.0",
+{"1.0.1",
  [
+  {"1.0.0", [{restart_application, glob}]},
   {"0.0.9", [{restart_application, glob}]}
  ],
  [
+  {"1.0.0", [{restart_application, glob}]},
   {"0.0.9", [{restart_application, glob}]}
  ]}.

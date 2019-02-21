@@ -22,7 +22,7 @@
  glob,
  [
   {description, "A library to match glob expressions"},
-  {vsn, "1.0.0"},
+  {vsn, "1.0.1"},
   {registered, []},
   {applications, [kernel, stdlib]},
   {env, []},
