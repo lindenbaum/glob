@@ -1,6 +1,7 @@
 .beam
 .eunit
 .rebar
+.rebar3
 _build
 deps
 ebin
