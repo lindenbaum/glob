@@ -1,4 +1,4 @@
-![Build Status](https://github.com/lindenbaum/glob/workflows/.github/workflows/test.yml/badge.svg?branch=master)
+[![Build Status](https://github.com/lindenbaum/glob/workflows/.github/workflows/test.yml/badge.svg?branch=master)](https://github.com/lindenbaum/glob/actions)
 [![Old Build Status (TRAVIS)](https://travis-ci.org/lindenbaum/glob.png?branch=master)](https://travis-ci.org/lindenbaum/glob)
 
 glob
